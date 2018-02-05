@@ -11,10 +11,12 @@ public class ArrayQueue {
 	private int size;
 	private int first;
 	private int last;
+	private final int INITIAL_ARRAY_SIZE;
 	
 	
 	public ArrayQueue() {
-		array = new Object[5];
+		INITIAL_ARRAY_SIZE = 20;
+		array = new Object[INITIAL_ARRAY_SIZE];
 		size = 0;
 		first = 0;
 		last = 0;
@@ -46,17 +48,17 @@ public class ArrayQueue {
 		return toDequeue;
 	}
 	
-	public Object first() throws IndexOutOfBoundsException {
+	public Object first() throws NoSuchElementException {
 		if (size == 0) {
-			throw new IndexOutOfBoundsException();
+			throw new NoSuchElementException();
 		}
 		return array[first];
 
 	}
 	
-	public Object last() throws IndexOutOfBoundsException {
+	public Object last() throws NoSuchElementException {
 		if (size == 0) {
-			throw new IndexOutOfBoundsException();
+			throw new NoSuchElementException();
 		}
 		return array[last];
 	}
