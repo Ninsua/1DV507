@@ -16,6 +16,7 @@ public class ArrayQueueMain {
 		aq1.enqueue("asd"); 
 		
 		System.out.println(aq1.toString());
+		System.out.println(aq1.last());
 		
 		Iterator<Object> it = aq1.iterator();
 		

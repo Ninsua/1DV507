@@ -1,4 +1,4 @@
-package da222mz_assign2.Exercise1;
+package da222mz_assign2.Exercise1_3;
 
 import java.util.Iterator;
 
@@ -7,13 +7,13 @@ import java.util.Iterator;
  * a simple implementation of a Queue. It provides the methods for object
  * interactivity (enqueue, dequeue, first, last), queue status checks (size, isEmpty, toString)
  * and an iterator that can iterate through all the objects in the queue.
- * </p>
+ * 
  * Attempts to access an index that is not with the queue's range will throw
- * an unchecked exception of the type <code>IndexOutOfBoundsException</code>.
- * </p>
+ * an unchecked exception of the type <code>NoSuchElementException</code>.
+ * 
  * Classes implementing this interface:
- * <ul> 
- * <li> {@link da222mz_assign2.LinkedQueue} </li>
+ * 
+ * {@link da222mz_assign2.Exercise1_3.LinkedQueue}
  * 
  * @author Sastac
  * 
@@ -21,16 +21,22 @@ import java.util.Iterator;
 
 public interface Queue {
 	
-	/** Returns the current amount of stored elements */
+	/** Returns the current amount of stored elements 
+	 * 
+	 * @return	Current size of the queue
+	 * */
 	public int size();                     // current queue size 
 	
-	/** Returns true if the queue doesn't contain any elements */
+	/** Returns true if the queue doesn't contain any elements
+	 * 
+	 * @return true if empty, otherwise false
+	 * */
 	public boolean isEmpty();              // true if queue is empty 
 	
 	/** 
 	 * Adds object <code>element</code> at the end of the queue.
 	 * 
-	 * @param		<code>element</code> object to be added.
+	 * @param		element object to be added.
 	 * 
 	 *  */
 	public void enqueue(Object element);   // add element at end of queue 
@@ -39,7 +45,7 @@ public interface Queue {
 	 * Returns and removes the first <code>element</code> into the queue.
 	 * 
 	 * @return		First element in the queue
-	 * @throws		IndexOutOfBoundsException if empty queue
+	 * @throws		NoSuchElementException if empty queue
 	 *  */
 	public Object dequeue();               // return and remove first element. 
 	
@@ -47,7 +53,7 @@ public interface Queue {
 	 * Returns the first element in the queue.
 	 * 
 	 * @return		First element in the queue
-	 * @throws		IndexOutOfBoundsException if empty queue
+	 * @throws		NoSuchElementException if empty queue
 	 * */
 	public Object first();                 // return (without removing) first element 
 	
@@ -55,7 +61,7 @@ public interface Queue {
 	 * Returns the last element in the queue.
 	 * 
 	 * @return		Last element in the queue
-	 * @throws		IndexOutOfBoundsException if empty queue
+	 * @throws		NoSuchElementException if empty queue
 	 * */
 	public Object last();                  // return (without removing) last element 
 	
@@ -68,9 +74,9 @@ public interface Queue {
 	public String toString();              // return a string representation of the queue content
 	
 	/** 
-	 * Returns an Iterator<object> that can iterate over the queue's elements
+	 * Returns an Iterator that can iterate over the queue's elements
 	 * 
-	 * @return		Iterator<Object> that iterates over the queue's elements
+	 * @return		Iterator that iterates over the queue's elements
 	 */
 	public Iterator<Object> iterator();    // element iterator
 }

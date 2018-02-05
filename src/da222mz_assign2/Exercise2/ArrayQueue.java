@@ -60,7 +60,7 @@ public class ArrayQueue {
 		if (size == 0) {
 			throw new NoSuchElementException();
 		}
-		return array[last];
+		return array[last-1];
 	}
 	
 	public String toString() {
@@ -95,9 +95,9 @@ public class ArrayQueue {
 		for (int i = 0;i<array.length;i++) {
 			newArray[i] = array[(first+i)%array.length];
 		}
+		array = newArray;
 		first = 0;
 		last = size;
-		array = newArray;
 	}
 	
 	public Iterator<Object> iterator() {
@@ -105,29 +105,31 @@ public class ArrayQueue {
 	}
 	
 	public class ArrayQueueIterator implements Iterator<Object> {
-		private Object[] array;
-		private int first;
+		private Object[] itArr;
 		private int current;
 		private int count;
 		private int size;
 		
 		public ArrayQueueIterator(Object[] arr,int f,int s) {
-			array = arr;
-			first = f;
-			current = first;
+			itArr = arr;
+			current = f;
 			size = s;
 			count = 0;
 		}
 		
 		public boolean hasNext() {
-			return count != size;
+			return count < size;
 		}
 		
 		public Object next() {
+			if (size == 0 || count >= size) {
+				throw new NoSuchElementException();
+			}
+			Object toNext = itArr[current];
+			current = (current+1)%array.length;
 			count++;
-			return array[(current++)%array.length];
+			return toNext;
 		}
 	}
-
 
 }

@@ -1,4 +1,4 @@
-package da222mz_assign2.Exercise1;
+package da222mz_assign2.Exercise1_3;
 
 import java.util.Iterator;
 
@@ -22,8 +22,6 @@ public class QueueMain {
 		while (q1Iterator.hasNext()) {
 			System.out.println("Iterator element: "+q1Iterator.next());
 		}
-		
-		
 		
 		System.out.println(q1.dequeue());
 		System.out.println(q1.dequeue());

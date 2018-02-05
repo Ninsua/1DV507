@@ -1,16 +1,17 @@
-package da222mz_assign2.Exercise1;
+package da222mz_assign2.Exercise1_3;
 
 //TODO Få javadoc att fungera korrekt, denna klass visas ej i indexet, CYKA BLYAT
 
 import java.lang.StringBuilder;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * A linked implementation of a queue that can store objects. Implements the <code>Queue</code>
  * interface.
- * </p>
+ * 
  * Attempts to access an index that is not with the queue's range will throw
- * an unchecked exception of the type <code>IndexOutOfBoundsException</code>.
+ * an unchecked exception of the type <code>NoSuchElementException</code>.
  * 
  * @author Sastac
  * 
@@ -30,7 +31,7 @@ public class LinkedQueue implements Queue {
 	/** 
 	 * Adds object <code>element</code> at the end of the queue.
 	 * 
-	 * @param		<code>element</code> object to be added.
+	 * @param		element object to be added.
 	 */
 	public void enqueue(Object element) {
 		if (head == null) {
@@ -47,9 +48,9 @@ public class LinkedQueue implements Queue {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Object dequeue() throws IndexOutOfBoundsException {
+	public Object dequeue() throws NoSuchElementException {
 		if (head == null) {
-			throw new IndexOutOfBoundsException();
+			throw new NoSuchElementException();
 		}
 		else if (!head.hasNext()) {
 			Object e = head.element;
@@ -67,9 +68,9 @@ public class LinkedQueue implements Queue {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Object first() throws IndexOutOfBoundsException {
+	public Object first() throws NoSuchElementException {
 		if (head == null) {
-			throw new IndexOutOfBoundsException();
+			throw new NoSuchElementException();
 		}
 		return head.element;
 	}
@@ -77,9 +78,9 @@ public class LinkedQueue implements Queue {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Object last() throws IndexOutOfBoundsException {
+	public Object last() throws NoSuchElementException {
 		if (head == null) {
-			throw new IndexOutOfBoundsException();
+			throw new NoSuchElementException();
 		}
 		return tails.element;
 	}
@@ -101,20 +102,20 @@ public class LinkedQueue implements Queue {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @throws <code>IndexOutOfBoundsException</code> if the queue is empty
+	 * @throws NoSuchElementException if the queue is empty
 	 */
-	public String toString() throws IndexOutOfBoundsException {
+	public String toString() throws NoSuchElementException {
 		if (head == null) {
-			throw new IndexOutOfBoundsException();
+			throw new NoSuchElementException();
 		}
 		StringBuilder output = new StringBuilder("[");
 		Node n = head;
-		while (n.hasNext()) {
+		while (n != null) {
 			output.append(n.element.toString());
 			output.append(",");
 			n = n.next;
 		}
-		output.append(tails.element.toString());
+		output.deleteCharAt(output.length()-1);
 		output.append("]");
 		
 		return output.toString();
@@ -169,7 +170,10 @@ public class LinkedQueue implements Queue {
 			return current != null;
 		}
 		
-		public Object next() {
+		public Object next() throws NoSuchElementException {
+			if (current == null) {
+				throw new NoSuchElementException();
+			}
 			Object value = current.element;
 			current = current.next;
 			return value;
