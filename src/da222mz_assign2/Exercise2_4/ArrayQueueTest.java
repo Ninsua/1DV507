@@ -1,4 +1,4 @@
-package da222mz_assign2.Exercise2;
+package da222mz_assign2.Exercise2_4;
 
 import static org.junit.jupiter.api.Assertions.*;
 
