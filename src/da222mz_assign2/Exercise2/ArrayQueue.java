@@ -1,7 +1,10 @@
 package da222mz_assign2.Exercise2;
 
-import java.util.Arrays;
+//TODO: Fix toString
+
 import java.util.Iterator;
+import java.lang.StringBuilder;
+import java.util.NoSuchElementException;
 
 public class ArrayQueue {
 	private Object[] array;
@@ -27,31 +30,18 @@ public class ArrayQueue {
 	
 	public void enqueue(Object obj) {
 		resizeCheck();
-		if (last-1 == array.length && first > 0) {
-			last = 0;
-			
-		}
-		else if (last == first && first > 0) {
-			last = size;
-		}
-		else if (last > first && first > 0) {
-			last = first-1;
-		}
-		
-		array[last] = obj;
 		size++;
+		array[last] = obj;
+		last = (last+1)%array.length;
 	}
 	
-	public Object dequeue() throws IndexOutOfBoundsException {
+	public Object dequeue() throws NoSuchElementException {
 		if (size == 0) {
-			throw new IndexOutOfBoundsException();
-		}
-		else if (first == array.length) {
-			first = 0;
+			throw new NoSuchElementException();
 		}
 		Object toDequeue = array[first];
 		array[first] = null;
-		first++;
+		first = (first+1)%array.length;
 		size--;
 		return toDequeue;
 	}
@@ -72,45 +62,68 @@ public class ArrayQueue {
 	}
 	
 	public String toString() {
-		return "first: "+first+" last: "+last+" arr length: "+array.length;
+		if (size == 0) {
+			return "[]";
+		}
+		StringBuilder buff = new StringBuilder("[");
+		for (int i = 0;i<size;i++) {
+			buff.append(array[(first+i)%array.length]);
+			buff.append(",");
+		}
+		
+		buff.deleteCharAt(buff.length()-1);
+		buff.append("]");	
+		
+		return buff.toString();
 	}
 	
+	//Resize if necessary
 	private void resizeCheck() {
-		if (size+1 > array.length) {
-			last = array.length;
+		if (size == array.length) {
 			resize();
-			
 		}
 	}
 	
+	/*
+	 * Starts from first, loops around until it's covered all elements.
+	 * First element is now 0 and last is the size of the queue.
+	*/
 	private void resize() {
-		Object[] temp = Arrays.copyOf(array, array.length*2);
-		array = temp;
+		Object[] newArray = new Object[array.length*2];
+		for (int i = 0;i<array.length;i++) {
+			newArray[i] = array[(first+i)%array.length];
+		}
+		first = 0;
+		last = size;
+		array = newArray;
 	}
 	
 	public Iterator<Object> iterator() {
-		return new ArrayQueueIterator(array,first,last);
+		return new ArrayQueueIterator(array,first,size);
 	}
 	
 	public class ArrayQueueIterator implements Iterator<Object> {
 		private Object[] array;
 		private int first;
-		private int last;
 		private int current;
+		private int count;
+		private int size;
 		
-		public ArrayQueueIterator(Object[] arr,int f,int l) {
+		public ArrayQueueIterator(Object[] arr,int f,int s) {
 			array = arr;
 			first = f;
-			last = l;
 			current = first;
+			size = s;
+			count = 0;
 		}
 		
 		public boolean hasNext() {
-			return current < last;
+			return count != size;
 		}
 		
 		public Object next() {
-			return array[current++];
+			count++;
+			return array[(current++)%array.length];
 		}
 	}
 
