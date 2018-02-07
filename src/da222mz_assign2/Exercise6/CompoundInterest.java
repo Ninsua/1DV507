@@ -6,9 +6,12 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import static java.lang.Math.toIntExact;
@@ -28,19 +31,36 @@ public class CompoundInterest extends Application {
 		
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
-	    grid.setHgap(30);
-	    grid.setVgap(30);
+	    grid.setHgap(15);
+	    grid.setVgap(15);
 	    //top,right,bottom,left, wat
-	    grid.setPadding(new Insets(0, 250, 150, 0));
+	    grid.setPadding(new Insets(10,5, 10, 5));
 	    grid.setGridLinesVisible(true);
 	    
-	    Text text = new Text(0,0,"Compound Interest");
-	    text.setFont(Font.font("Helvetica",25));
-		
-	    grid.add(text,7,0);
-		grid.add(new Label("Start ammount:"), 0, 3);
+	    Text header = new Text(0,0,"Compound Interest");
+	    header.setTextAlignment(TextAlignment.CENTER);
+	    header.setFont(Font.font("Helvetica",40));
 	    
-		System.out.println(grid.getRowCount());
+	    final TextField ammountField = new TextField();
+	    final TextField interestField = new TextField();
+	    final TextField yearField = new TextField();
+	    
+	    Button calculate = new Button();
+		
+	    grid.add(header,0,0);
+	    GridPane.setFillWidth(header,true);
+		grid.add(new Label("Start ammount:"), 0, 1);
+		grid.add(new Label("Interest:"), 0, 2);
+		grid.add(new Label("Number of years"), 0, 3);
+		
+		grid.add(ammountField, 1, 1);
+		grid.add(interestField, 1, 2);
+		grid.add(yearField, 1, 3);
+		
+		
+		
+	    
+		//System.out.println(grid.getRowCount());
 	    
 		Scene scene = new Scene(grid);
 		primaryStage.setScene(scene);

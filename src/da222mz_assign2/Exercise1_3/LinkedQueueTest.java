@@ -1,6 +1,9 @@
 package da222mz_assign2.Exercise1_3;
 
-//TODO modify to test ArrayQueue as well, not another file
+/*TODO:
+ * Try test cases with just 1.
+ * VG: Modify to test ArrayQueue as well, not another file
+ */
 
 import static org.junit.jupiter.api.Assertions.*;
 

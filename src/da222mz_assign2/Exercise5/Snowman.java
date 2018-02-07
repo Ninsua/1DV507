@@ -58,7 +58,6 @@ public class Snowman extends Application {
 		primaryStage.setTitle("Snowmayne");
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		
 	}
 	
 	public static void main(String[] args) {
