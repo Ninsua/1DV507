@@ -9,7 +9,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
-
 public class Snowman extends Application {
 	
 	@Override
@@ -31,7 +30,6 @@ public class Snowman extends Application {
 		
 		Circle leftEye = new Circle(290,145,3,Color.BLACK);
 		Circle rightEye = new Circle(310,145,3,Color.BLACK);
-		
 		Circle button1 = new Circle(300,177,3,Color.BLACK);
 		Circle button2 = new Circle(300,192,3,Color.BLACK);
 		Circle button3 = new Circle(300,207,3,Color.BLACK);
@@ -44,7 +42,7 @@ public class Snowman extends Application {
 		hat2.setArcHeight(10);
 		Rectangle hat3 = new Rectangle(282,123,35,5);
 		hat3.setFill(Color.RED);
-
+		
 		Line mouth = new Line(290,158,310,158);
 		mouth.setStroke(Color.BLACK);
 		
@@ -56,6 +54,7 @@ public class Snowman extends Application {
 		Scene scene = new Scene(root,600,400);
 		
 		primaryStage.setTitle("Snowmayne");
+		primaryStage.setResizable(false);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
@@ -63,5 +62,4 @@ public class Snowman extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-
 }
