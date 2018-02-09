@@ -78,32 +78,32 @@ public class CompoundInterest extends Application {
 		
 		//Goes into the middleBox
 		VBox leftVBox = new VBox();
-		leftVBox.setPadding(new Insets(14,5,10,5)); //top,right,bottom,left, wat
+		leftVBox.setPadding(new Insets(14,5,5,5)); //top,right,bottom,left, wat
 		leftVBox.setSpacing(16);
 		leftVBox.setAlignment(Pos.CENTER_LEFT);
 		leftVBox.getChildren().addAll(amountLabel,interestLabel,yearsLabel);
 		
 		//Goes into the middleBox
 		VBox rightVBox = new VBox();
-		rightVBox.setPadding(new Insets(10,5,10,3));
+		rightVBox.setPadding(new Insets(10,5,5,3));
 		rightVBox.setSpacing(14);
 		rightVBox.setAlignment(Pos.CENTER_LEFT);
 		rightVBox.getChildren().addAll(ammountField,interestField,yearField);
 		
 		HBox middleBox = new HBox();
-		middleBox.setPadding(new Insets(0,0,0,0));
+		middleBox.setPadding(new Insets(0,0,5,0));
 		middleBox.setAlignment(Pos.CENTER);
 		middleBox.getChildren().addAll(leftVBox,rightVBox);
 		
 		VBox bottomVBox = new VBox();
-		bottomVBox.setPadding(new Insets(5,0,5,5));
+		bottomVBox.setPadding(new Insets(5,0,5,10));
 		bottomVBox.setSpacing(4);
 		bottomVBox.getChildren().addAll(calculateButton,resultLabel);
 		
 	    VBox root = new VBox();
 	    root.getChildren().addAll(topHBox,middleBox,bottomVBox);
 	    
-		Scene scene = new Scene(root,300,225);
+		Scene scene = new Scene(root);
 		primaryStage.setTitle("Compound Interest");
 		primaryStage.setResizable(false);
 		primaryStage.setScene(scene);
