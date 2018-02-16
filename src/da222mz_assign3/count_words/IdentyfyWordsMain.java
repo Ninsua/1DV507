@@ -23,7 +23,13 @@ public class IdentyfyWordsMain {
 		fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(f), "UTF8"));	
 			
 		while (fileReader.ready()) {
-			input.append((char) fileReader.read());
+			char c = (char) fileReader.read();
+			if (c == '\n') {
+				input.append(" ");
+			}
+			else {
+				input.append(c);
+			}
 		}
 			
 		fileReader.close();
@@ -31,7 +37,7 @@ public class IdentyfyWordsMain {
 		return input.toString();
 	}
 	
-	
+	//Writes String to a file
 	public static void writeFile(File f,String input) throws IOException  {
 		OutputStreamWriter writer;
 		
@@ -44,14 +50,24 @@ public class IdentyfyWordsMain {
 	}
 
 	public static void main(String[] args) {
-		File inputFile;
-		File outputFile;
 		String[] words;
 		String input = "";
 		String output = "";
-		String inputPath = "/home/sastac/Documents/kurser/java2/ass3/HistoryOfProgramming.txt";
+		String inputPath = "";
 		String outputPath = "";
+		File inputFile;
+		File outputFile;
 		
+		//Arguments
+		for (int i = 0;i<args.length;i++) {
+			
+			if (args[i].charAt(0) == '-') {
+				if (args[i].charAt(1) == 'f' && args.length > 1) {
+					inputPath = args[i+1];
+				}
+			}
+			
+		}
 		
 		inputFile = new File(inputPath);
 		
@@ -71,18 +87,19 @@ public class IdentyfyWordsMain {
 		//Input string array to wordlist by removing special charas
 		Stream<String> wordStream = Arrays.stream(words);
 		List<String> wordsList = wordStream
-					.map(w -> w.replaceAll("[^a-z-A-Z-\']", ""))
+					.map(w -> w.replaceAll("[^a-z-A-Z]", ""))
+					.filter(w -> w.length()>0)
 					.collect(Collectors.toList());
 		
 		//wordList to string
 		for (String s : wordsList) {
-			output += s+" ";
+			output = output+s+" ";
 		}
 		
 		//Set new path and new file
-		outputPath = inputFile.getParent()+"/"+"words.txt";
+		outputPath = inputFile.getParent()+"\\"+"words.txt";
 		outputFile = new File(outputPath);
-		
+
 		//Writes string into file
 		try {
 			writeFile(outputFile,output);
@@ -93,10 +110,6 @@ public class IdentyfyWordsMain {
 			System.exit(1);
 		}
 		
-		Word w1 = new Word("Knark");
-		 
-		
-
 	}
 
 }

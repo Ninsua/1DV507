@@ -87,7 +87,7 @@ class SortingAlgorithmsTest {
 		assertEquals(stringArray[1],sortedString[0]);
 		
 		//Testing arraysize 10
-		stringArray = new String[] {"Josef","Inge","Harald","Gustaf","Fredrik","Erik","David","Caesar","Bertil","Adam"};;
+		stringArray = new String[] {"Josef","Inge","Harald","Gustaf","Fredrik","Erik","David","Caesar","Bertil","Adam"};
 		sortedString = SortingAlgorithms.insertionSort(stringArray,(String s1,String s2) -> s1.compareTo(s2));
 		for (int i = 0;i<stringArray.length;i++) {
 			assertEquals(stringArray[i],sortedString[stringArray.length-1-i]);
