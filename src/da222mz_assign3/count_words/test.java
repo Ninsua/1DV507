@@ -10,7 +10,7 @@ public class test {
 		WordTreeSet wordTree = new WordTreeSet();
 		
 		Word w1 = new Word("allowed");
-		Word w2 = new Word("ALlOWeD");
+		Word w2 = new Word("lALlOWeD");
 		Word w3 = new Word("alowey");
 		
 		
@@ -38,7 +38,7 @@ public class test {
 		
 		
 		//Generate 3 random letter "words" (b-y), not max and min pos
-		for (int i = 0;i<8; i++) {
+		for (int i = 0;i<10; i++) {
 			String randomLetters = "";
 			for (int j = 0 ; j<3 ; j++) {
 				char c = (char) ((char) r1.nextInt(24)+'a');
@@ -50,7 +50,13 @@ public class test {
 		
 		wordTree.add(new Word("asd"));
 		
-		System.out.println(wordTree.size);
-		System.out.println(wordTree.contains(new Word("asd")));	
+		System.out.println(wordTree.size());
+		
+		Iterator<Word> treeIt = wordTree.iterator();
+		
+		while (treeIt.hasNext()) {
+			System.out.println(treeIt.next());
+		}
+		
 	}
 }

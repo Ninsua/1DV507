@@ -3,10 +3,13 @@ package da222mz_assign3.count_words;
 //TODO fix the iterator
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Queue;
+import java.util.Stack;
 
 public class WordTreeSet implements WordSet {
-	Node root;
-	int size;
+	private Node root;
+	private int size;
 	
 	public WordTreeSet() {
 		root = null;
@@ -16,6 +19,7 @@ public class WordTreeSet implements WordSet {
 	public void add(Word w) {
 		if (root == null) {
 			root = new Node(w);
+			root.parent = null;
 			size++;
 		}
 		
@@ -43,9 +47,10 @@ public class WordTreeSet implements WordSet {
 	
 	
 	private class Node {
-		Node left;
-		Node right;
-		Word value;
+		private Node parent;
+		private Node left;
+		private Node right;
+		private Word value;
 		
 		public Node(Word w) {
 			value = w;
@@ -61,6 +66,7 @@ public class WordTreeSet implements WordSet {
 			if (direction < 0) {
 				if (left == null) {
 					left = new Node(w);
+					left.parent = this;
 					size++;
 				}
 				
@@ -72,6 +78,7 @@ public class WordTreeSet implements WordSet {
 			else if (direction > 0) {
 				if (right == null) {
 					right = new Node(w);
+					right.parent = this;
 					size++;
 				}
 				
@@ -114,36 +121,66 @@ public class WordTreeSet implements WordSet {
 	}
 	
 	private class WordTreeSetIterator implements Iterator<Word> {
-		Node current;
+		private Node current;
 		
-		public WordTreeSetIterator(Node root) {
+		public WordTreeSetIterator(Node root) throws NoSuchElementException {
+			if (root == null) {
+				throw new NoSuchElementException();
+			}
+			
 			current = root;
+			
+			//Starts at the leftmost node
+			while (current.left != null) {
+				current = current.left;
+			}
+			
 		}
 		
 		public boolean hasNext() {
-			Node asd = current;
-			
-			if (asd == null) {
-				return false;
-			}
-			
-			else if (asd.left != null) {
-				
-			}
-			
-			while (asd.left != null) {
-				if (asd.left != null) {
-				
-				}	
-			}
-			
-			return false;
+			return current != null;
 		}
 		
-		public Word next() {
+		public Word next() throws NoSuchElementException {
+			if (current == null) {
+				throw new NoSuchElementException();
+			}
 			
-			return new Word("wwwww");
+			
+			Node next = current;
+			
+			if (current.right != null) {
+				
+				current = current.right;
+				while (current.left != null) {
+					current = current.left;
+				}
+				
+				return next.value;
+			}
+			
+			//Climb up the tree
+			while (true) {
+				
+				//Last element
+				if (current.parent == null) {
+					current = null;
+					
+					return next.value;
+				}
+				
+				if (current.parent.left == current) {
+					current = current.parent;
+					
+					return next.value;
+				}
+				
+				else {
+					current = current.parent;
+				}
+			}
 		}
+
 		
 	}
 }
