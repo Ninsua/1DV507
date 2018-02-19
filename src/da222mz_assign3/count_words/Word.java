@@ -30,7 +30,6 @@ public class Word implements Comparable<Word> {
 		return hash;
 	}
 	
-	@Override
 	public int compareTo(Word w) {
 		return word.compareToIgnoreCase(w.word);
 	}

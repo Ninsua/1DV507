@@ -7,6 +7,7 @@ public class test {
 
 	public static void main(String[] args) {
 		WordHashSet wordHash = new WordHashSet();
+		WordTreeSet wordTree = new WordTreeSet();
 		
 		Word w1 = new Word("allowed");
 		Word w2 = new Word("ALlOWeD");
@@ -16,10 +17,14 @@ public class test {
 		wordHash.add(w1);
 		wordHash.add(w2);
 		wordHash.add(w3);
+		wordTree.add(w1);
+		wordTree.add(w2);
+		wordTree.add(w3);
 		
 		
 		
 		Random r1 = new Random();
+		/*
 		//Generate 3 random letter "words" (b-y), not max and min pos
 		for (int i = 0;i<10; i++) {
 			String randomLetters = "";
@@ -29,17 +34,23 @@ public class test {
 			}
 			Word w = new Word(randomLetters);
 			wordHash.add(w);
-		}	
+		}	*/
 		
-		System.out.println(wordHash.size());
-		System.out.println(wordHash.toString());
 		
-		Iterator<Word> it = wordHash.iterator();
-		
-		while (it.hasNext()) {
-			System.out.println(it.next());
+		//Generate 3 random letter "words" (b-y), not max and min pos
+		for (int i = 0;i<8; i++) {
+			String randomLetters = "";
+			for (int j = 0 ; j<3 ; j++) {
+				char c = (char) ((char) r1.nextInt(24)+'a');
+				randomLetters=randomLetters+c;
+			}
+			Word w = new Word(randomLetters);
+			wordTree.add(w);
 		}
 		
+		wordTree.add(new Word("asd"));
+		
+		System.out.println(wordTree.size);
+		System.out.println(wordTree.contains(new Word("asd")));	
 	}
-
 }
