@@ -4,8 +4,6 @@ package da222mz_assign3.count_words;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Queue;
-import java.util.Stack;
 
 public class WordTreeSet implements WordSet {
 	private Node root;
@@ -146,9 +144,10 @@ public class WordTreeSet implements WordSet {
 				throw new NoSuchElementException();
 			}
 			
-			
+			//To return
 			Node next = current;
 			
+			//Always go right if possible
 			if (current.right != null) {
 				
 				current = current.right;
@@ -180,7 +179,5 @@ public class WordTreeSet implements WordSet {
 				}
 			}
 		}
-
-		
 	}
 }

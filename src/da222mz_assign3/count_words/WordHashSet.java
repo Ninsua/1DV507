@@ -35,6 +35,7 @@ public class WordHashSet implements WordSet {
 	public boolean contains(Word w) {
 		//Look for similar objects
 		if (lookUp(w)) {
+			
 			return true;
 		}
 		
@@ -77,15 +78,6 @@ public class WordHashSet implements WordSet {
 		return hash%buckets.length;
 	}
 	
-	private int getBucket(Word w,int mod) {
-		int hash = w.hashCode();
-		
-		if (hash < 0)
-			hash = -hash; 
-		
-		return hash%mod;
-	}
-	
 	//Looks for similar objects
 	private boolean lookUp(Word w) {
 		int hash = w.hashCode();
@@ -93,7 +85,7 @@ public class WordHashSet implements WordSet {
 		Node node = buckets[bucket];
 		
 		while (node != null) {
-			if (hash == node.value.hashCode() && w.equals(node.value))
+			if (node.value.equals(w) && node.value.hashCode() == hash)
 				return true;
 
 			node = node.next;
@@ -104,22 +96,19 @@ public class WordHashSet implements WordSet {
 	
 	//Rescale the array and rehash elments to make sure lookup is fast
 	private void reHash() {
-		int oldLength = buckets.length;
-		int newLength = oldLength*2;
-		Node[] newBuckets = new Node[newLength];
+		Node[] oldBuckets = buckets;
+		buckets = new Node[oldBuckets.length*2];
+		size = 0;
 		
 		//Re-hash and add all the nodes to the new array
-		for (int i = 0; i<oldLength; i++) {
-			Node n = buckets[i];
-				
-			while (n != null && n.next != null) {
-				int bucket = getBucket(n.value,newLength);
-				n.next = newBuckets[bucket];
-				newBuckets[bucket] = n;
+		for (int i = 0;i<oldBuckets.length;i++) {
+			Node node = oldBuckets[i];
+			
+			while (node != null) {
+				add(node.value);
+				node = node.next;
 			}	
 		}
-		
-		buckets = newBuckets;
 	}
 	
 	//Node inner class
@@ -155,7 +144,6 @@ public class WordHashSet implements WordSet {
 			
 			return false;
 		}
-		
 		
 		public Word next() throws NoSuchElementException {	
 			if (current != null && current.next != null) {

@@ -1,5 +1,7 @@
 package da222mz_assign3.count_words;
 
+//To the testers: Use the params -f "path"
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
