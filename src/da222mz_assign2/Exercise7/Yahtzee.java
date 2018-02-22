@@ -1,5 +1,10 @@
 package da222mz_assign2.Exercise7;
 
+/* Accidentally wrote this so you have to check the boxes for the dice
+ * that you want to rethrow, WHOOPS
+ */
+
+
 import java.util.ArrayList;
 import java.util.AbstractMap.SimpleEntry;
 
