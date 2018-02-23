@@ -50,7 +50,6 @@ public class Yahtzee extends Application {
 			return "Yahtzee!";
 		}
 		
-		
 		//Look for 3 and 4 of a kind
 		int threeValue = -1;
 		for (int i = 1;i<=6;i++) {

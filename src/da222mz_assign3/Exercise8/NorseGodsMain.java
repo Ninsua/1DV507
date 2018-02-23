@@ -4,7 +4,10 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -60,7 +63,7 @@ public class NorseGodsMain extends Application {
 		thor.setName("Thor");
 		thor.SetRace("Norse God");
 		godsList.add(thor);
-
+		
 		loki.setName("Loki");
 		loki.SetRace("Norse God");
 		godsList.add(loki);
@@ -92,16 +95,30 @@ public class NorseGodsMain extends Application {
 		try {
 			URL url = getClass().getResource("gods/odin.txt");
 			odin.setDesc(readFile(new File(url.getPath())));
-			/*
-			thor.setDesc(readFile(new File("gods/thor.txt")));
-			loki.setDesc(readFile(new File("gods/loki.txt")));
-			baldr.setDesc(readFile(new File("gods/baldr.txt")));
-			freyr.setDesc(readFile(new File("gods/freyr.txt")));
-			freyja.setDesc(readFile(new File("gods/freyja.txt")));
-			heimdallr.setDesc(readFile(new File("gods/heimdallr.txt")));
-			bragi.setDesc(readFile(new File("gods/bragi.txt")));
-			tyr.setDesc(readFile(new File("gods/tyr.txt")));
-			*/
+			
+			url = getClass().getResource("gods/thor.txt");
+			thor.setDesc(readFile(new File(url.getPath())));
+			
+			url = getClass().getResource("gods/loki.txt");
+			loki.setDesc(readFile(new File(url.getPath())));
+			
+			url = getClass().getResource("gods/baldr.txt");
+			baldr.setDesc(readFile(new File(url.getPath())));
+			
+			url = getClass().getResource("gods/freyr.txt");
+			freyr.setDesc(readFile(new File(url.getPath())));
+			
+			url = getClass().getResource("gods/freyja.txt");
+			freyja.setDesc(readFile(new File(url.getPath())));
+			
+			url = getClass().getResource("gods/heimdallr.txt");
+			heimdallr.setDesc(readFile(new File(url.getPath())));
+			
+			url = getClass().getResource("gods/bragi.txt");
+			bragi.setDesc(readFile(new File(url.getPath())));
+			
+			url = getClass().getResource("gods/tyr.txt");
+			tyr.setDesc(readFile(new File(url.getPath())));
 		}
 		
 		catch (IOException e) {
@@ -110,8 +127,16 @@ public class NorseGodsMain extends Application {
 		
 		//Nodes
 		Label header = new Label("Norse gods and other Beings");
-		
-		
+	    header.setTextAlignment(TextAlignment.CENTER);
+	    header.setFont(Font.font("Helvetica",30));
+	    
+	    ListView<NorseGod> list = new ListView<NorseGod>();
+	    
+	    for (NorseGod ng : godsList) {
+	    	list.getItems().add(ng);
+	    }
+	    
+	    
 		
 	    //Layouts
 		GridPane grid = new GridPane();
@@ -119,8 +144,7 @@ public class NorseGodsMain extends Application {
 	    grid.setVgap(5);
 		
 		grid.add(header,0,0,2,1);
-		
-
+		grid.add(list, 0, 1);
 	    
 	    grid.setPadding(new Insets(5,5,5,5)); //top, right, bottom, left
 	    grid.setGridLinesVisible(true); //For debugging
