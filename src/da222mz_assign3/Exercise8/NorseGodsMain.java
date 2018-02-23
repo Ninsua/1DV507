@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class NorseGodsMain extends Application {
@@ -88,14 +89,9 @@ public class NorseGodsMain extends Application {
 		tyr.SetRace("Norse God");
 		godsList.add(tyr);
 		
-		
-		String test = getClass().getResourceAsStream("gods/odin.txt").toString();
-		
-		System.out.println(test);
-		
 		try {
-			
-			odin.setDesc(readFile(new File("asd")));
+			URL url = getClass().getResource("gods/odin.txt");
+			odin.setDesc(readFile(new File(url.getPath())));
 			/*
 			thor.setDesc(readFile(new File("gods/thor.txt")));
 			loki.setDesc(readFile(new File("gods/loki.txt")));
