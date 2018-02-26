@@ -5,9 +5,13 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -25,16 +29,11 @@ public class NorseGodsMain extends Application {
 		BufferedReader fileReader;
 		StringBuilder input = new StringBuilder();
 
-		fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(f), "UTF8"));	
+		fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(f), "Cp1252"));	
 			
 		while (fileReader.ready()) {
 			char c = (char) fileReader.read();
-			if (c == '\n') {
-				input.append(" ");
-			}
-			else {
 				input.append(c);
-			}
 		}
 			
 		fileReader.close();
@@ -45,6 +44,7 @@ public class NorseGodsMain extends Application {
 	public void start(Stage mainStage) {
 		//List of gods and it's populating
 		ArrayList<NorseGod> godsList = new ArrayList<NorseGod>();
+		ArrayList<String> stringList = new ArrayList<String>();
 		
 		NorseGod odin = new NorseGod();
 		NorseGod thor = new NorseGod();
@@ -91,7 +91,8 @@ public class NorseGodsMain extends Application {
 		tyr.setName("Tyr");
 		tyr.SetRace("Norse God");
 		godsList.add(tyr);
-		
+
+		//Read descriptions from text files
 		try {
 			URL url = getClass().getResource("gods/odin.txt");
 			odin.setDesc(readFile(new File(url.getPath())));
@@ -125,29 +126,76 @@ public class NorseGodsMain extends Application {
 			e.printStackTrace();
 		}
 		
-		//Nodes
-		Label header = new Label("Norse gods and other Beings");
-	    header.setTextAlignment(TextAlignment.CENTER);
-	    header.setFont(Font.font("Helvetica",30));
-	    
-	    ListView<NorseGod> list = new ListView<NorseGod>();
-	    
-	    for (NorseGod ng : godsList) {
-	    	list.getItems().add(ng);
-	    }
-	    
-	    
+		//Create string list and map them to a god (for display purposes)
+		for (int i = 0;i<godsList.size();i++) {
+			stringList.add(godsList.get(i).getName());
+		}
 		
 	    //Layouts
 		GridPane grid = new GridPane();
-	    grid.setHgap(5);
-	    grid.setVgap(5);
-		
-		grid.add(header,0,0,2,1);
-		grid.add(list, 0, 1);
-	    
+	    grid.setHgap(15);
+	    grid.setVgap(0);
 	    grid.setPadding(new Insets(5,5,5,5)); //top, right, bottom, left
 	    grid.setGridLinesVisible(true); //For debugging
+	    
+	    VBox nameAndRaceBox = new VBox();
+	    nameAndRaceBox.setSpacing(0);
+	    nameAndRaceBox.setPadding(new Insets(0,0,8,0));
+	    
+	    ScrollPane scrollBox = new ScrollPane();
+	    scrollBox.setPrefSize(400, 300);
+	    scrollBox.setFitToWidth(true);
+		
+		//Nodes
+		Label header = new Label("Norse gods and other Beings");
+	    header.setTextAlignment(TextAlignment.CENTER);
+	    header.setFont(Font.font("Helvetica",25));
+	    header.setStyle("-fx-font-weight: bold");
+	    
+	    //Node that displays the list
+	    ListView<String> list = new ListView<String>();
+	    for (String s : stringList) {
+	    	list.getItems().add(s);
+	    }
+	    list.setMaxWidth(140);
+	    list.setMaxHeight(350);
+	    
+	    //Select the first item in list
+	    list.getSelectionModel().select(0);
+	    list.getFocusModel().focus(0);
+	    
+	    //Content nodes
+	    Label nameDisplay = new Label(godsList.get(list.getSelectionModel().getSelectedIndex()).getName());
+	    nameDisplay.setFont(Font.font("Helvetica",16));
+	    nameDisplay.setStyle("-fx-font-weight: bold");
+	    Label raceDisplay = new Label(godsList.get(list.getSelectionModel().getSelectedIndex()).getRace());
+	    raceDisplay.setFont(Font.font("Helvetica",12));
+	    raceDisplay.setStyle("-fx-font-style: italic");
+	    Text descDisplay = new Text(godsList.get(list.getSelectionModel().getSelectedIndex()).getDesc());
+	    descDisplay.setFont(Font.font("Helvetica"));
+	    
+	    TextFlow richText = new TextFlow();
+	    richText.setPrefSize(GridPane.REMAINING, GridPane.REMAINING);
+	    richText.setMaxWidth(400);
+	    richText.setMaxHeight(300);
+	    richText.getChildren().add(descDisplay);
+	    
+	    //Listeners
+	    list.getSelectionModel().selectedIndexProperty().addListener(contentUpdate -> {
+	    	nameDisplay.setText(godsList.get(list.getSelectionModel().getSelectedIndex()).getName());
+	    	raceDisplay.setText(godsList.get(list.getSelectionModel().getSelectedIndex()).getRace());
+	    	descDisplay.setText(godsList.get(list.getSelectionModel().getSelectedIndex()).getDesc());
+	    });
+	    
+	    //Add nodes to layouts
+	    scrollBox.setContent(richText);
+	    nameAndRaceBox.getChildren().addAll(nameDisplay,raceDisplay);
+	    
+		
+		grid.add(header,0,0,2,1);
+		grid.add(list, 0,1,1,3);
+		grid.add(nameAndRaceBox,1,1);
+		grid.add(scrollBox,1,2);
 	    
 		//Scene stuff
 		Scene scene = new Scene(grid);
