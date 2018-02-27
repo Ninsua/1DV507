@@ -1,5 +1,10 @@
 package da222mz_assign3.Exercise8;
 
+/*
+ * TODO
+ * Automate the adding of gods by scanning the gods folder, if time allows it (probably not)
+ */
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -24,7 +29,7 @@ import java.util.ArrayList;
 
 public class NorseGodsMain extends Application {
 	
-	//Reads a file's text into a giant string
+	//Reads ANSI encoded text files into a giant string
 	public static String readFile(File f) throws IOException {
 		BufferedReader fileReader;
 		StringBuilder input = new StringBuilder();
@@ -55,9 +60,11 @@ public class NorseGodsMain extends Application {
 		NorseGod heimdallr = new NorseGod();
 		NorseGod bragi = new NorseGod();
 		NorseGod tyr = new NorseGod();
+		NorseGod ninhursag = new NorseGod();
 		
+		//All this stuff needs to be automated, maybe someday...
 		odin.setName("Odin");
-		odin.SetRace("Norse God");
+		odin.SetRace("Wöden");
 		godsList.add(odin);
 		
 		thor.setName("Thor");
@@ -65,7 +72,7 @@ public class NorseGodsMain extends Application {
 		godsList.add(thor);
 		
 		loki.setName("Loki");
-		loki.SetRace("Norse God");
+		loki.SetRace("Some guy");
 		godsList.add(loki);
 		
 		baldr.setName("Baldr");
@@ -77,7 +84,7 @@ public class NorseGodsMain extends Application {
 		godsList.add(freyr);
 		
 		freyja.setName("Freyja");
-		freyja.SetRace("Norse God");
+		freyja.SetRace("Some chick");
 		godsList.add(freyja);
 		
 		heimdallr.setName("Heimdallr");
@@ -85,14 +92,19 @@ public class NorseGodsMain extends Application {
 		godsList.add(heimdallr);
 		
 		bragi.setName("Bragi");
-		bragi.SetRace("Norse God");
+		bragi.SetRace("dude stop Bragi'n");
 		godsList.add(bragi);
 		
 		tyr.setName("Tyr");
 		tyr.SetRace("Norse God");
 		godsList.add(tyr);
+		
+		//Not a norse god but w/e
+		ninhursag.setName("Ninhursag");
+		ninhursag.SetRace("Mother Goddess, Goddess of Fertility");
+		godsList.add(ninhursag);
 
-		//Read descriptions from text files
+		//Read descriptions from text files, obviously needs to be automated
 		try {
 			URL url = getClass().getResource("gods/odin.txt");
 			odin.setDesc(readFile(new File(url.getPath())));
@@ -120,6 +132,15 @@ public class NorseGodsMain extends Application {
 			
 			url = getClass().getResource("gods/tyr.txt");
 			tyr.setDesc(readFile(new File(url.getPath())));
+			
+			url = getClass().getResource("gods/tyr.txt");
+			tyr.setDesc(readFile(new File(url.getPath())));
+			
+			url = getClass().getResource("gods/tyr.txt");
+			tyr.setDesc(readFile(new File(url.getPath())));
+			
+			url = getClass().getResource("gods/ninhursag.txt");
+			ninhursag.setDesc(readFile(new File(url.getPath())));
 		}
 		
 		catch (IOException e) {
@@ -136,7 +157,7 @@ public class NorseGodsMain extends Application {
 	    grid.setHgap(15);
 	    grid.setVgap(0);
 	    grid.setPadding(new Insets(5,5,5,5)); //top, right, bottom, left
-	    grid.setGridLinesVisible(true); //For debugging
+	    // grid.setGridLinesVisible(true); //For debugging
 	    
 	    VBox nameAndRaceBox = new VBox();
 	    nameAndRaceBox.setSpacing(0);
@@ -176,8 +197,6 @@ public class NorseGodsMain extends Application {
 	    
 	    TextFlow richText = new TextFlow();
 	    richText.setPrefSize(GridPane.REMAINING, GridPane.REMAINING);
-	    richText.setMaxWidth(400);
-	    richText.setMaxHeight(300);
 	    richText.getChildren().add(descDisplay);
 	    
 	    //Listeners
@@ -191,7 +210,6 @@ public class NorseGodsMain extends Application {
 	    scrollBox.setContent(richText);
 	    nameAndRaceBox.getChildren().addAll(nameDisplay,raceDisplay);
 	    
-		
 		grid.add(header,0,0,2,1);
 		grid.add(list, 0,1,1,3);
 		grid.add(nameAndRaceBox,1,1);
@@ -209,6 +227,5 @@ public class NorseGodsMain extends Application {
 	public static void main(String[] args) {
 		launch();
 	}
-
 
 }
