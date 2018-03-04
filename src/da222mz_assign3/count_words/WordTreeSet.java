@@ -132,7 +132,6 @@ public class WordTreeSet implements WordSet {
 			while (current.left != null) {
 				current = current.left;
 			}
-			
 		}
 		
 		public boolean hasNext() {

@@ -64,7 +64,7 @@ public class NorseGodsMain extends Application {
 		
 		//All this stuff needs to be automated, maybe someday...
 		odin.setName("Odin");
-		odin.SetRace("Wöden");
+		odin.SetRace("Wï¿½den");
 		godsList.add(odin);
 		
 		thor.setName("Thor");
@@ -92,7 +92,7 @@ public class NorseGodsMain extends Application {
 		godsList.add(heimdallr);
 		
 		bragi.setName("Bragi");
-		bragi.SetRace("dude stop Bragi'n");
+		bragi.SetRace("dude stop Bragi'n"); //sorry I'll see myself out
 		godsList.add(bragi);
 		
 		tyr.setName("Tyr");
@@ -220,8 +220,7 @@ public class NorseGodsMain extends Application {
 		mainStage.setTitle("Norse Gods");
 		mainStage.setResizable(false);
 		mainStage.setScene(scene);
-		mainStage.show();
-		
+		mainStage.show();	
 	}
 
 	public static void main(String[] args) {
