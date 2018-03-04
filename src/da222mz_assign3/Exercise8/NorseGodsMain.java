@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -166,7 +167,9 @@ public class NorseGodsMain extends Application {
 	    ScrollPane scrollBox = new ScrollPane();
 	    scrollBox.setPrefSize(400, 300);
 	    scrollBox.setFitToWidth(true);
-		
+	    scrollBox.setFitToHeight(true);
+	    scrollBox.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+
 		//Nodes
 		Label header = new Label("Norse gods and other Beings");
 	    header.setTextAlignment(TextAlignment.CENTER);
