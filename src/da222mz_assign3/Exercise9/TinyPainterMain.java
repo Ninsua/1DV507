@@ -4,20 +4,50 @@ import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 
 public class TinyPainterMain extends Application {
+	
+	private static Line drawLine(double startX, double startY,double size,Color col) {
+		Line line;
+		line = new Line(startX,startY,startX,startY);
+		line.setStrokeWidth(size);
+		line.setStroke(col);
+		
+		return line;
+	}
+	
+	private static Rectangle drawRectangle(double startX, double startY,double height, double width,Color col) {
+		Rectangle rect = new Rectangle();
+		rect.setWidth(width);
+		rect.setHeight(height);
+		rect.setFill(col);	
+		rect.setX(startX);
+		rect.setY(startY);
+		
+		return rect;
+	}
+	
+	private static Circle drawCircle(double startX, double startY,double radius,Color col) {
+		Circle circ = new Circle();
+		circ.setCenterX(startX);
+		circ.setCenterY(startY);
+		circ.setRadius(radius);
+		circ.setFill(col);
+		
+		return circ;
+	}
 	
 	public void start(Stage mainStage) {
 		
@@ -25,13 +55,14 @@ public class TinyPainterMain extends Application {
 		ArrayList<Line> lineList = new ArrayList<Line>();
 		ArrayList<Rectangle> dotList = new ArrayList<Rectangle>();
 		ArrayList<Rectangle> rectList = new ArrayList<Rectangle>();
+		ArrayList<Circle> circList = new ArrayList<Circle>();
 		
 		//Layouts
 		GridPane grid = new GridPane();
 	    grid.setHgap(10);
 	    grid.setVgap(5);
 	    grid.setPadding(new Insets(5,5,5,5)); //top, right, bottom, left
-	    grid.setGridLinesVisible(true); //For debugging
+	    //grid.setGridLinesVisible(true); //For debugging
 	    
 	    HBox menu = new HBox();
 	    menu.setSpacing(10);
@@ -49,100 +80,116 @@ public class TinyPainterMain extends Application {
 		sizeSel.getSelectionModel().select(0);
 		
 		ColorPicker colourSel = new ColorPicker();
-		
+
+		//Drawing canvas
 	    Pane canvas = new Pane();
 	    canvas.setPrefSize(GridPane.REMAINING, GridPane.REMAINING);
 	    canvas.setMaxSize(GridPane.REMAINING, GridPane.REMAINING);
-	    canvas.setStyle("-fx-background-color: #C90000");
 	    
-	    canvas.setOnMousePressed(draw -> {
+	    //Clear button
+		Button clear = new Button();
+		clear.setText("Clear");
+		clear.setOnAction(clearCanvas -> {
+			canvas.getChildren().clear();
+			lineList.clear();
+			dotList.clear();
+			rectList.clear();
+			circList.clear();
+		});
+	    
+	    canvas.setOnMousePressed(mouse -> {
 	    	if (shapeSel.getSelectionModel().getSelectedItem().equals("Line")) {
-	    		Line newLine;
-	    		double startX = draw.getX();
-	    		double startY = draw.getY();
-	    		newLine = new Line(startX,startY,startX,startY);
-	    		newLine.setStrokeWidth(sizeSel.getSelectionModel().getSelectedItem());
-	    		newLine.setStroke(colourSel.getValue());
-	    		
+	    		Line newLine = drawLine(mouse.getX(),mouse.getY(),sizeSel.getSelectionModel().getSelectedItem(),colourSel.getValue());
 	    		canvas.getChildren().add(newLine);
-	    		
 	    		lineList.add(newLine);
 	    	}
 	    	
 	    	if (shapeSel.getSelectionModel().getSelectedItem().equals("Dot")) {
 	    		Rectangle newDot;
-	    		double startX = draw.getX();
-	    		double startY = draw.getY();
+	    		double startX = mouse.getX();
+	    		double startY = mouse.getY();
 	    		double size = sizeSel.getSelectionModel().getSelectedItem();
 	    		
-	    		newDot = new Rectangle();
-	    		newDot.setWidth(size);
-	    		newDot.setHeight(size);
-	    		newDot.setFill(colourSel.getValue());	
-	    		newDot.setX(startX-(size/2.0));
-	    		newDot.setY(startY-(size/2.0));
-	    		
-	    		canvas.getChildren().add(newDot);
-	    		dotList.add(newDot);
+	    		if (startY > size/2.0-1) { //Can't draw over menu
+	    			newDot = drawRectangle(startX-(size/2.0),startY-(size/2.0),size,size,colourSel.getValue());
+		    		canvas.getChildren().add(newDot);
+		    		dotList.add(newDot);
+	    		}
 	    	}
 	    	
 	    	if (shapeSel.getSelectionModel().getSelectedItem().equals("Rectangle")) {
-	    		Rectangle newRect;
-	    		double size = sizeSel.getSelectionModel().getSelectedItem();
-	    		
-	    		newRect = new Rectangle(1,1);
-	    		newRect.setWidth(size);
-	    		newRect.setHeight(size);
-	    		newRect.setFill(colourSel.getValue());	
-	    		newRect.setX(draw.getX()-(size/2.0));
-	    		newRect.setY(draw.getY()-(size/2.0));
-	    		
+	    		Rectangle newRect = drawRectangle(mouse.getX(),mouse.getY(),1,1,colourSel.getValue());
 	    		canvas.getChildren().add(newRect);
 	    		rectList.add(newRect);
-	    	}	    	
+	    	}	    
+	    	
+	    	if (shapeSel.getSelectionModel().getSelectedItem().equals("Circle")) {
+	    		Circle newCirc = drawCircle(mouse.getX(),mouse.getY(),1,colourSel.getValue());
+	    		canvas.getChildren().add(newCirc);
+	    		circList.add(newCirc);
+	    	}	
 	    });
 	    
-	    canvas.setOnMouseDragged(draw -> {
+	    canvas.setOnMouseDragged(mouse -> {
 	    	if (shapeSel.getSelectionModel().getSelectedItem().equals("Line")) {
 	    		Line endLine = lineList.get(lineList.size()-1);
 	    		Double size = endLine.getStrokeWidth();
-		    	endLine.setEndX(draw.getX());
-		    	if (draw.getY() < size) { endLine.setEndY(size/2.0); } //Can't draw over menu
-		    	else { endLine.setEndY(draw.getY()); }
+		    	endLine.setEndX(mouse.getX());
+		    	if (mouse.getY() < size) { endLine.setEndY(size/2.0); } //Can't draw over menu
+		    	else { endLine.setEndY(mouse.getY()); }
 	    	}
 	    	
 	    	if (shapeSel.getSelectionModel().getSelectedItem().equals("Rectangle")) {
 	    		Rectangle rect = rectList.get(rectList.size()-1);
 	    		
-	    		Double xPos = draw.getX();
-	    		Double yPos = draw.getY();
+	    		Double mouseXPos = mouse.getX();
+	    		Double mouseYPos = mouse.getY();
 	    		
-	    		if (xPos > rect.getX()) {
-	    			rect.setWidth(draw.getX()-rect.getX());
+	    		if (mouseXPos > rect.getX()) {
+	    			rect.setWidth(mouse.getX()-rect.getX());
 	    			}
 	    		else {
-	    			rect.setWidth(rect.getX()-draw.getX());
-	    			rect.setTranslateX(draw.getX()-rect.getX());
+	    			rect.setWidth(rect.getX()-mouse.getX());
+	    			rect.setTranslateX(mouse.getX()-rect.getX());
 	    		}
 	    		
-	    		if (yPos > rect.getY()) {
-	    			rect.setHeight(draw.getY()-rect.getY());
+	    		if (mouseYPos > rect.getY()) {
+	    			rect.setHeight(mouse.getY()-rect.getY());
 	    		}
 	    		
-	    		else if (rect.getY()-yPos >= rect.getY()) {
-	    			rect.setHeight(rect.getY()-draw.getY());
-	    			rect.setTranslateY(draw.getY()-rect.getY());
+	    		else if (mouseYPos <= -1) { //Can't draw over menu
+	    			rect.setHeight(rect.getY());
 	    		}
 	    			
 	    		else {
-	    			rect.setHeight(rect.getY()-draw.getY());
-	    			rect.setTranslateY(draw.getY()-rect.getY());
+	    			rect.setHeight(rect.getY()-mouse.getY());
+	    			rect.setTranslateY(mouse.getY()-rect.getY());
 	    		}
+	    	}
+	    	
+	    	if (shapeSel.getSelectionModel().getSelectedItem().equals("Circle")) {
+	    		Circle circ = circList.get(circList.size()-1);
+	    		
+	    		Double mouseXPos = mouse.getX();
+	    		Double mouseYPos = mouse.getY();
+	    		Double circleXPos = circ.getCenterX();
+	    		Double circleYPos = circ.getCenterY();
+	    		double radius = Math.sqrt((Math.pow(circleXPos-mouseXPos,2))+(Math.pow(circleYPos-mouseYPos,2)));
+
+	    		if (radius >= circleYPos) { //Can't draw over menu
+	    			circ.setRadius(circleYPos);
+	    		}
+	    		 
+	    		else {
+	    			circ.setRadius(radius);
+	    		}
+	    		
+	    		
 	    	}
 	    });
 		
 		//Add notes to layouts
-	    menu.getChildren().addAll(shapeSel,sizeSel,colourSel);
+	    menu.getChildren().addAll(shapeSel,sizeSel,colourSel,clear);
 	    grid.add(menu,0,0);
 		grid.add(canvas,0,1,3,1);
 		
