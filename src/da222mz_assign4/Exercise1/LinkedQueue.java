@@ -28,9 +28,9 @@ public class LinkedQueue<T> implements Queue<T>,Iterable<T> {
 		size++;
 	}
 
-	public T dequeue() throws IndexOutOfBoundsException {
+	public T dequeue() throws NoSuchElementException {
 		if (head == null) {
-			throw new IndexOutOfBoundsException();
+			throw new NoSuchElementException();
 		}
 		
 		else if (!head.hasNext()) {
@@ -48,16 +48,16 @@ public class LinkedQueue<T> implements Queue<T>,Iterable<T> {
 	}
 	
 
-	public T first() throws IndexOutOfBoundsException {
+	public T first() throws NoSuchElementException {
 		if (size == 0) {
-			throw new IndexOutOfBoundsException();
+			throw new NoSuchElementException();
 		}
 		return head.value;
 	}
 
-	public T last() throws IndexOutOfBoundsException {
+	public T last() throws NoSuchElementException {
 		if (size == 0) {
-			throw new IndexOutOfBoundsException();
+			throw new NoSuchElementException();
 		}
 		return tail.value;
 	}
