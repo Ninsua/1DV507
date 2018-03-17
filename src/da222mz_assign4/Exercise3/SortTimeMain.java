@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.Random;
 import static java.lang.Math.toIntExact;
 
-public class SortTimeMain {
+public class SortTimeMain  {
 	static int runs = 1; //Amount of runs dipswitch
 	static int intArrayRange = 9000; //Range of the numbers in the int array
 	static int stringArrayRange = 10; //Size of the strings to sort in the array
@@ -126,8 +126,6 @@ public class SortTimeMain {
 		before = System.currentTimeMillis();
 		arr = insertionSort(arr,(String s1,String s2) -> s1.compareTo(s2));
 		after = System.currentTimeMillis(); 
-		
-
 
 		return after-before;
 	}
@@ -139,29 +137,40 @@ public class SortTimeMain {
 	
 		for (int i = 0;i<runs;i++) {
 			long time = 0;
-			int count = 51500;
+			int count = 10000;
 			
 			//int
 			do {
 				intArr = randomIntArray(count,intArrayRange);
 				time = insertionSortMeasureTime(intArr);
 				System.out.println("New array, size: "+intArr.length+" time to sort: "+time/1000.0);
-				long size = Math.round(Math.log(count)); //Logarithmic curve of count
-				count = count+toIntExact(size)*2;
-			}
+				//if time is very small, add a lot more, else log
+				long size;
+				if (time > timeToMeasure*1000) {
+					count = count/2;
+				}
+				
+				else {
+					size = Math.round(Math.log(count)); //Logarithmic curve of count
+					count = count+count;
+				}
+			}	
+			
 			while (time < timeToMeasure*1000);
 			
 			results[0] = results[0]+intArr.length;
 			results[1] = results[1]+time/1000.0;
 			
 			time = 0;
-			count = 18000;
+			count = 10000;
 			
+			/*
 			//String
 			do {
 				strArr = randomStringArray(count,stringArrayRange);
 				time = insertionSortMeasureTime(strArr);
 				System.out.println("New array, size: "+strArr.length+" time to sort: "+time/1000.0);
+				//if time is very small, add a lot more, else log
 				long size = Math.round(Math.log(count)); //Logarithmic curve of count
 				count = count+toIntExact(size);
 			}
@@ -169,14 +178,13 @@ public class SortTimeMain {
 			
 			results[2] = results[2]+strArr.length;
 			results[3] = results[3]+time/1000.0;
+		*/
 		}
+		
 		
 		for (int i = 0;i<results.length;i++) {
 			results[i] = results[i]/runs;
 		}
-		
-
-		
+				
 	}
-
 }

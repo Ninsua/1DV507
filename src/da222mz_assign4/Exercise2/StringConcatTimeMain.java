@@ -50,7 +50,7 @@ public class StringConcatTimeMain {
 			int concatShortStrTimeLength = measureTime(shortStr,timeToMeasure);
 			int concatLongStrTimeLength = measureTime(longStr,timeToMeasure);
 			int appendShortStrTimeLength = measureStringBuilderTime(shortStr,timeToMeasure);
-			int appendLongStrTimeLength = 0;// measureStringBuilderTime(longStr,timeToMeasure);
+			int appendLongStrTimeLength = measureStringBuilderTime(longStr,timeToMeasure);
 			
 			//Save results
 			results[0] = results[0]+concatShortStrTimeLength/shortStrLength;
