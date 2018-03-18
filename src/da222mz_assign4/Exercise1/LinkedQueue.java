@@ -4,9 +4,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class LinkedQueue<T> implements Queue<T>,Iterable<T> {
-	int size;
-	Node head;
-	Node tail;
+	private int size;
+	private Node head;
+	private Node tail;
 	
 	public LinkedQueue() {
 		size = 0;

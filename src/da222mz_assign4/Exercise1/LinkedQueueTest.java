@@ -145,7 +145,7 @@ class LinkedQueueTest {
 		Random randToFill = new Random();
 		for (int i = 0;i<ONE_MILLION;i++) {
 			Integer random = randToFill.nextInt(9000);
-			assertEquals(i,testIntQueue.size);
+			assertEquals(i,testIntQueue.size());
 			testIntQueue.enqueue(random);
 		}
 		
@@ -154,15 +154,15 @@ class LinkedQueueTest {
 			for (int j = 0;j<20;j++) {
 				sB1.append((randToFill.nextInt(26) + 'a'));
 			}
-			assertEquals(i,testStringQueue.size);
+			assertEquals(i,testStringQueue.size());
 			testStringQueue.enqueue(sB1.toString());
 			sB1.delete(0, sB1.length()-1);
 		}	
 		
 		//Removes all elements
 		for (int i = 0;i<ONE_MILLION;i++) {
-			assertEquals(ONE_MILLION-i,testIntQueue.size);
-			assertEquals(ONE_MILLION-i,testStringQueue.size);
+			assertEquals(ONE_MILLION-i,testIntQueue.size());
+			assertEquals(ONE_MILLION-i,testStringQueue.size());
 			testIntQueue.dequeue();
 			testStringQueue.dequeue();
 		}

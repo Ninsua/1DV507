@@ -3,10 +3,9 @@ package da222mz_assign4.Exercise3;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
-import static java.lang.Math.toIntExact;
 
 public class SortTimeMain  {
-	static int runs = 1; //Amount of runs dipswitch
+	static int runs = 5; //Amount of runs dipswitch
 	static int intArrayRange = 9000; //Range of the numbers in the int array
 	static int stringArrayRange = 10; //Size of the strings to sort in the array
 	static int timeToMeasure = 1; //Time to measure, in seconds
@@ -101,8 +100,7 @@ public class SortTimeMain  {
 		}
 		
 		String[] array = new String[size];
-		Random rand = new Random();
-		
+
 		for (int i = 0;i<size;i++) {
 			array[i] = randomString(stringSize);
 		}
@@ -137,50 +135,54 @@ public class SortTimeMain  {
 	
 		for (int i = 0;i<runs;i++) {
 			long time = 0;
-			int count = 10000;
+			int count = 100;
 			
 			//int
 			do {
 				intArr = randomIntArray(count,intArrayRange);
 				time = insertionSortMeasureTime(intArr);
-				System.out.println("New array, size: "+intArr.length+" time to sort: "+time/1000.0);
-				//if time is very small, add a lot more, else log
-				long size;
+
 				if (time > timeToMeasure*1000) {
 					count = count/2;
 				}
 				
 				else {
-					size = Math.round(Math.log(count)); //Logarithmic curve of count
-					count = count+count;
+					count = count+count/2;
 				}
+				
 			}	
+			while (time < timeToMeasure*975 || time > timeToMeasure*1025);
 			
-			while (time < timeToMeasure*1000);
+			System.out.println("New int array, size: "+intArr.length+" time to sort: "+time/1000.0);
 			
 			results[0] = results[0]+intArr.length;
 			results[1] = results[1]+time/1000.0;
 			
 			time = 0;
-			count = 10000;
+			count = 100;
 			
-			/*
+			
 			//String
 			do {
 				strArr = randomStringArray(count,stringArrayRange);
 				time = insertionSortMeasureTime(strArr);
-				System.out.println("New array, size: "+strArr.length+" time to sort: "+time/1000.0);
-				//if time is very small, add a lot more, else log
-				long size = Math.round(Math.log(count)); //Logarithmic curve of count
-				count = count+toIntExact(size);
-			}
-			while (time < timeToMeasure*1000);
+
+				if (time > timeToMeasure*1000) {
+					count = count/2;
+				}
+				
+				else {
+					count = count+count/2;
+				}
+				
+			}	
+			while (time < timeToMeasure*975 || time > timeToMeasure*1025);
+			
+			System.out.println("New str array, size: "+strArr.length+" time to sort: "+time/1000.0);
 			
 			results[2] = results[2]+strArr.length;
 			results[3] = results[3]+time/1000.0;
-		*/
 		}
-		
 		
 		for (int i = 0;i<results.length;i++) {
 			results[i] = results[i]/runs;
